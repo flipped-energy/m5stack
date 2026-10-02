@@ -152,7 +152,9 @@ void apply(intptr_t arg)
 
 void publish(const Update &update)
 {
-    setSpotLinked(!update.signals.tariff.fault && update.signals.tariff.spotLinked);
+    if (!update.signals.tariff.fault) {
+        setSpotLinked(update.signals.tariff.spotLinked);
+    }
     followInstance(update.instanceKey, !update.signals.account.fault);
     auto payload = std::make_unique<Payload>();
     payload->switches = core::switchValues(update.signals);
