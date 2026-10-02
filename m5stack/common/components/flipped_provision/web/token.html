@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flipped token</title>
+<style>
+body{font:17px/1.45 system-ui,sans-serif;max-width:30em;margin:0 auto;padding:1em;color:#111}
+h1{font-size:1.4em}
+input,button{font:inherit;width:100%;box-sizing:border-box;padding:.6em;margin:.3em 0;border-radius:.4em}
+input{border:1px solid #888}
+button{border:0;background:#00805f;color:#fff}
+button:disabled{background:#999}
+#m{white-space:pre-wrap;overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<h1>Flipped token</h1>
+<ol>
+<li>In the Flipped app or website, open <b>APIs and MCPs</b> and turn it on.</li>
+<li>Create a token: any <b>Name</b>, <b>Expires in</b> 1 year, <b>Access</b> Read only. Tap <b>Create token</b> and copy the token.</li>
+<li>Paste it here and tap <b>Send to device</b>.</li>
+</ol>
+<input id="t" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Token">
+<button id="s" type="button">Send to device</button>
+<p id="m" role="status"></p>
+<script>
+const f = location.hash.slice(1).replace(/-/g, '+').replace(/_/g, '/')
+const k = /^[A-Za-z0-9+/]{75}$/.test(f) ? Uint8Array.from(atob(f), (ch) => ch.charCodeAt(0)) : null
+const hex = (b) => Array.from(b, (v) => v.toString(16).padStart(2, '0')).join('')
+async function send(text) {
+  const t = new TextEncoder().encode(text.trim())
+  const c = t.map((v, i) => v ^ k[8 + i])
+  const r = await fetch('/t', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: 'a=' + hex(k.slice(0, 8)) + '&c=' + hex(c) })
+  return { ok: r.ok, text: await r.text() }
+}
+const input = document.getElementById('t')
+const button = document.getElementById('s')
+const message = document.getElementById('m')
+if (!k) {
+  message.textContent = 'Scan the code on the device screen again.'
+  input.disabled = true
+  button.disabled = true
+}
+button.onclick = () => {
+  const text = input.value.trim()
+  if (!text.startsWith('fdk_')) {
+    message.textContent = 'The token must start with fdk_.'
+    return
+  }
+  if (new TextEncoder().encode(text).length > 48) {
+    message.textContent = 'The token is longer than 48 characters.'
+    return
+  }
+  button.disabled = true
+  message.textContent = ''
+  return send(text).then((r) => {
+    message.textContent = r.text
+    if (r.ok) {
+      input.value = ''
+      history.replaceState(null, '', location.pathname)
+    } else {
+      button.disabled = false
+    }
+  }, (e) => {
+    message.textContent = String(e)
+    button.disabled = false
+  })
+}
+</script>
+</body>
+</html>

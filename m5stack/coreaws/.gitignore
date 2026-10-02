@@ -1,0 +1,8 @@
+build/
+build-noenergy/
+build-eve/
+build-host/
+managed_components/
+sdkconfig
+sdkconfig.old
+*-log.txt

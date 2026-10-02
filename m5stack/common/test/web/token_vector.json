@@ -1,0 +1,7 @@
+{
+  "ipv4": "192.168.1.23",
+  "secret": "2972bb044d96df2871ba034c95de2770b9024b94dd266fb8014a93dc256eb7004992db246db6ff4891da236cb5fe4790d9226bb4fd468fd8",
+  "url": "http://192.168.1.23/t#KXK7BE2W3yhxugNMld4ncLkCS5TdJm-4AUqT3CVutwBJktskbbb_SJHaI2y1_keQ2SJrtP1Gj9g",
+  "token": "fdk_vectorTokenForProvisionTests0123456789AB",
+  "body": "a=2972bb044d96df28&c=17de6813e3bb4404d6701ffbb64301fe6e38c3ae4a18de7320fdb57008c58b3ba1eb115f81cb71a7e11b2af6"
+}

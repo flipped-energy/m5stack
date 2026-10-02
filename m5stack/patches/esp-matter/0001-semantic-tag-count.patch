@@ -1,0 +1,13 @@
+diff --git a/components/esp_matter/data_model/esp_matter_data_model.cpp b/components/esp_matter/data_model/esp_matter_data_model.cpp
+index f726c63..41eb785 100644
+--- a/components/esp_matter/data_model/esp_matter_data_model.cpp
++++ b/components/esp_matter/data_model/esp_matter_data_model.cpp
+@@ -43,7 +43,7 @@
+ #include <lib/support/ScopedBuffer.h>
+ 
+ #define ESP_MATTER_MAX_DEVICE_TYPE_COUNT CONFIG_ESP_MATTER_MAX_DEVICE_TYPE_COUNT
+-#define ESP_MATTER_MAX_SEMANTIC_TAG_COUNT 3
++#define ESP_MATTER_MAX_SEMANTIC_TAG_COUNT 4
+ 
+ static const char *TAG = "data_model";
+ 

@@ -1,0 +1,14 @@
+menu "Flipped Energy app"
+
+config FLIPPED_USAGE_LOOKBACK_DAYS
+    int "Usage look-back in days"
+    range 2 7
+    help
+        Days of usage read before today at each usage sync. Each board sets it in its sdkconfig.defaults.
+
+config FLIPPED_BOARD_NAME
+    string "Board name"
+    help
+        The board name in the User-Agent header, flipped-m5stack-<board>/<version>. Each board sets it in its sdkconfig.defaults.
+
+endmenu

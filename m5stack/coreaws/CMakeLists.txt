@@ -1,0 +1,23 @@
+cmake_minimum_required(VERSION 3.5)
+if(NOT DEFINED ENV{ESP_MATTER_PATH})
+    message(FATAL_ERROR "ESP_MATTER_PATH is not set; build with ./build.sh")
+endif()
+file(STRINGS "${CMAKE_CURRENT_LIST_DIR}/version.txt" PROJECT_VER LIMIT_COUNT 1)
+if(NOT PROJECT_VER MATCHES "^([0-9]+)\\.([0-9]+)\\.([0-9]+)$")
+    message(FATAL_ERROR "version.txt holds '${PROJECT_VER}', expected MAJOR.MINOR.PATCH")
+endif()
+if(CMAKE_MATCH_1 GREATER 41 OR CMAKE_MATCH_2 GREATER 99 OR CMAKE_MATCH_3 GREATER 999999)
+    message(FATAL_ERROR "version ${PROJECT_VER} does not fit the Matter software version number")
+endif()
+math(EXPR PROJECT_VER_NUMBER "${CMAKE_MATCH_1} * 100000000 + ${CMAKE_MATCH_2} * 1000000 + ${CMAKE_MATCH_3}")
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/version.txt")
+set(ESP_MATTER_PATH $ENV{ESP_MATTER_PATH})
+set(MATTER_SDK_PATH ${ESP_MATTER_PATH}/connectedhomeip/connectedhomeip)
+include($ENV{IDF_PATH}/tools/cmake/project.cmake)
+set(EXTRA_COMPONENT_DIRS
+    "${MATTER_SDK_PATH}/config/esp32/components"
+    "${ESP_MATTER_PATH}/components"
+    "${CMAKE_CURRENT_LIST_DIR}/../common/components")
+project(flipped_coreaws)
+idf_build_set_property(CXX_COMPILE_OPTIONS "-std=gnu++17;-Os;-DCHIP_HAVE_CONFIG_H;-Wno-overloaded-virtual" APPEND)
+idf_build_set_property(C_COMPILE_OPTIONS "-Os" APPEND)

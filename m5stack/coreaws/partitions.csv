@@ -1,0 +1,8 @@
+esp_secure_cert, 0x3F, ,         0xD000,   0x2000,   encrypted
+nvs,             data, nvs,      0x10000,  0x18000,
+otadata,         data, ota,      0x28000,  0x2000,
+phy_init,        data, phy,      0x2A000,  0x1000,
+nvs_keys,        data, nvs_keys, 0x2B000,  0x1000,   encrypted
+ota_0,           app,  ota_0,    0x30000,  0x400000,
+ota_1,           app,  ota_1,    0x430000, 0x400000,
+fctry,           data, nvs,      0x830000, 0x6000,

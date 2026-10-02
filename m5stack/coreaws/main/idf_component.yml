@@ -1,0 +1,5 @@
+dependencies:
+  idf: ">=5.5"
+  m5stack/m5unified: "^0.2.24"
+  m5stack/m5gfx: "^0.2.31"
+  espressif/led_strip: "^3.0.3"
