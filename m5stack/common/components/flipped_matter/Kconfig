@@ -1,0 +1,27 @@
+menu "Flipped Energy Matter"
+
+config FLIPPED_ENERGY_ENDPOINTS
+    bool "Electrical utility meter (EP 2) and electrical meter (EP 3) endpoints"
+    default y
+    help
+        Builds EP 2 and EP 3 into the node. With n the switch endpoints start at EP 2. Unpair the device before
+        flashing a build with the other setting: the fixed endpoint IDs would collide with the stored switch IDs.
+
+config FLIPPED_GRID_ENERGY_OUTLET
+    bool "Grid Energy outlet: a native On/Off Plug-in Unit and Electrical Sensor endpoint carrying the imported energy"
+    depends on FLIPPED_ENERGY_ENDPOINTS
+    default y
+    help
+        Creates, after start, an always-off outlet endpoint named Grid Energy under the ID stored in flipped_mtr/grid_ep.
+        It carries Electrical Power Measurement (ActivePower null) and Electrical Energy Measurement with the same
+        cumulative and periodic imported energy as EP 3, for controllers that count energy only on outlet accessories.
+
+config FLIPPED_EVE_HISTORY
+    bool "Eve history cluster 0x130AFC01 on a native Energy History endpoint"
+    default n
+    help
+        Builds route 2 of design 03 section 9.4: an always-off On/Off Plug-in Unit endpoint created after start under
+        the ID stored in flipped_mtr/eve_ep, carrying Eve's history cluster over the imported-energy encoder persisted
+        in flipped/eve_hist. Off until probe P5 variant A has shown history in the Eve app for this identity.
+
+endmenu
