@@ -1,0 +1,13 @@
+out/
+out-work/
+*-log.txt
+node_modules/
+.venv/
+build/
+build-noenergy/
+build-host/
+managed_components/
+sdkconfig
+.homebridge-dev/
+*.tgz
+.DS_Store

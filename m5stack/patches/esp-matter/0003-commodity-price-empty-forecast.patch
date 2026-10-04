@@ -1,0 +1,12 @@
+diff --git a/connectedhomeip/connectedhomeip/src/app/clusters/commodity-price-server/commodity-price-server.cpp b/connectedhomeip/connectedhomeip/src/app/clusters/commodity-price-server/commodity-price-server.cpp
+--- a/connectedhomeip/connectedhomeip/src/app/clusters/commodity-price-server/commodity-price-server.cpp
++++ b/connectedhomeip/connectedhomeip/src/app/clusters/commodity-price-server/commodity-price-server.cpp
+@@ -586,7 +586,7 @@
+     // At this point our local storage should be unallocated
+ 
+     size_t entries = src.size();
+-    if (!mOwnedForecastPriceStructBuffer.Calloc(entries))
++    if (entries > 0 && !mOwnedForecastPriceStructBuffer.Calloc(entries))
+     {
+         return CHIP_ERROR_NO_MEMORY;
+     }
